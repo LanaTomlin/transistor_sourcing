@@ -5,26 +5,36 @@ import pandas as pd
 import plotly.express as px
 import os
 import glob
-#Enter desired filename here
+
 
 def data_upload(data):
     if not (data == '=' or data == '+' or data == '.' or data == None or data == 'MAIN' or data == '.MODEL' or data == '.SUBCKT' or data == 'Q1' or data == ')' or data == '('):
-        if(column !=None and type(column) != float):
-            if(data.find('=')== True):
+        if(column !=None):
+            if(type(column) != float):
 
-                parameter = data.split('=')
-                for x in parameter:
-                    clean_file.write(x)
-                    clean_file.write(',')
-            else:
-                #if(data.find('+')):
-                 #   data = data[-1:]
-                clean_file.write(data)
+                data.replace('+', '')
+               
+                if(data.find('=') != -1):
+                    parameter = data.split('=')
+                    for x in parameter:
+                        x.replace('+', '')
+                        x.replace('=', '')
+                        clean_file.write(x)
+                        clean_file.write(',')
+                    data = ''
+                if(data.find('+') != -1 ):
+                    data = data[1:]
+                    print(data)
+               
+                #else:
+                    #if(data.find('+')):
+                        #   data = data[-1:]
+            if(data != '' and data != 'nan'):
+                clean_file.write(str(data))
                 clean_file.write(',')
 
 file_path = 'spice_models'
 for file in os.listdir(file_path):
-    print(file)
     filename = str(file)
     file_name = filename[:-4]
     clean_file = open(f"clean_data/{file_name}.csv", "w")
@@ -35,11 +45,6 @@ for file in os.listdir(file_path):
 
             spice_data= spice_model.values
 
-            print(spice_model.index)
-            print(spice_model.columns)
-            print(spice_data[0])
-            num_rows = len(spice_model)
-            print(num_rows)
             for row in spice_data:
                 for column in row:
                         if(type(column) == list):
