@@ -1,0 +1,33 @@
+*
+*****************************************************
+*             Model of 2SK545 (rank=11)             *
+*                    package: CP                    *
+*****************************************************
+*                                                   *
+*                    J-FET Model                    *
+*                                                   *
+*             EXTERNAL PINS DESCRIPTION:            *
+*                                                   *
+*                  PIN 1 -> SOURCE                  *
+*                  PIN 2 -> DRAIN                   *
+*                  PIN 3 -> GATE                    *
+*                                                   *
+*               DATE:  Jan 31, 2020                 *
+*****************************************************
+* MODELLING FOR 2SK545 (Rank:11)
+ 
+.SUBCKT 2SK545CP    1 2 3
+LL3     3   33        0.524n
+J1     23   33   13   2SK545
+LW2    23   21        0.924n 
+CP2    33   21        0.66p
+LL2    21    2        0.132n  
+LW1    13   11        0.924n 
+CP1    33   11        0.66p
+LL1    11    1        0.132n
+
+.MODEL 2SK545 NJF(BETA=0.14 VTO=-1.1 LAMBDA=0.038
++ RD=5.6 RS=6.5 IS=0.56f CGS=0.32p CGD=0.32p M=0.33 PB=0.62
++ FC=0.5 N=1.016
+.ENDS 2SK545CP
+* END OF MODELLING
